@@ -4,8 +4,30 @@ const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
 
+const heartButton = document.querySelectorAll('.like-glyph');
 
-
+function likeEvent(event) {
+  const heartButton = event.target;
+  mimicServerCall("bogusUrl")
+    .then(function(){
+      if ( heartButton.innerText === EMPTY_HEART) {
+        heartButton.innerText = FULL_HEART;
+        heartButton.className = "activated-heart";
+      } else {
+        heartButton.innerText = EMPTY_HEART;
+        heartButton.className = "";
+      }
+    })
+    .catch(function(error) {
+      const modal = document.getElementById("modal");
+      modal.className = "";
+      modal.innerText = error;
+      setTimeout(() =>  modal.className = "hidden", 3000);
+    });
+}
+for (const glyph of heartButton) {
+  glyph.addEventListener('click', likeEvent);
+}
 
 //------------------------------------------------------------------------------
 // Don't change the code below: this function mocks the server response
